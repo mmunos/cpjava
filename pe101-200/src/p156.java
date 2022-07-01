@@ -2,29 +2,64 @@
 public class p156 {
 
 	public static void main(String[] args) {
-		int[] count = new int[10];
-		long n = 20000000000L;
-		long[] res = new long[10];
-		for(long i = 0; i <= n; i++) {
-			long aux = i;
-			while(aux > 0) {
-				count[(int)(aux % 10L)]++;
-				aux /= 10;
-			}
-			for(int d = 1; d <= 9; d++) {
-				if(count[d] == i) {
-					System.out.println(d+" "+i);
-					res[d] += i;
+		long sumsum = 0;
+		for(int d = 1; d <= 9; d++) {
+			long n = 99999999999999L;
+			long r;
+			long sum = 0;
+			while(n > 0) {
+				r = calc(d, n);
+				if(r < n) {
+					System.out.println(n+": "+r);
+					n = r;
+				}
+				else if(r == n) {
+					System.out.println(n+": "+r+" :0");
+					sum += n;
+					n--;
+				}
+				else {//r > n
+					System.out.println(n+": "+r+" :(");
+					long nn = invcalc(d, n);
+					if(nn == n) {
+						System.out.println("what");
+						n = nn-1;
+					}
+					else {// nn < n
+						n = nn;
+					}
 				}
 			}
+			System.out.println("chan cha chan: "+sum);	
+			sumsum += sum;
 		}
-		System.out.println("SOLS");
-		long ress = 0;
-		for(int d = 1; d <= 9; d++) {
-			System.out.println(d+" "+res[d]);
-			ress += res[d];
+		System.out.println("ans: "+sumsum);
+	}
+	
+	static long invcalc(int d, long x) {//find lowest n s.t. f(n) = x
+		long a = 1, b = x; //f(x) > x
+		while(b - a > 1) {
+			long c = (a + b)/2;
+			if(calc(d, c) >= x) b = c;
+			else a = c;
 		}
-		System.out.println(ress);
+		return b;
+	}
+	
+	static long calc(int d, long x) {
+		if(x < d) return 0;
+		if(x < 10) return 1;
+		String s = x+"";
+		int k = s.length()-1;
+		int a = s.charAt(0) - '0';
+		long b = Long.parseLong(s.substring(1));
+		long res1; //times d appears as the most significant digit
+		if(d < a) res1 = (long)Math.pow(10, k);
+		else if(d == a) res1 = b+1;
+		else res1 = 0;
+		long res2 = calc(d, b);
+		long res3 = a * (long)Math.pow(10, k-1) * k;
+		return res1 + res2 + res3;
 	}
 
 }

@@ -43,7 +43,7 @@ public class Permutations2 {
 			}
 		}
 		return null;
-	} // bring in the multiset too !!!
+	} // bring the multiset too !!!
 	static class Multiset{
 		TreeMap<Integer, Integer> map;
 		public Multiset() {

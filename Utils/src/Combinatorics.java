@@ -20,24 +20,24 @@ public class Combinatorics {
 		return fac(n) * invfac(k) % mod * invfac(n-k) % mod;
 	}
 	static long inv(long a){
-		return (gcdex(a, mod).r + mod) % mod;
+		return (gcdex(a, mod)[0] + mod) % mod;
 	}
-	static long[] gcdexarr(long a, long b){
+	static long[] gcdex(long a, long b){
 		if(b > a) {
-			long[] p = gcdexarr(b, a);
+			long[] p = gcdex(b, a);
 			return new long[] {p[1], p[0]};
 		}
 		else if(b == 0) return new long[] {1, 0};
 		else{
-			long[] p = gcdexarr(b, a % b);
+			long[] p = gcdex(b, a % b);
 			return new long[] {p[1], p[0] - p[1]*(a/b)};
 		}
 	}
-	static Pair gcdex(long a, long b){
-		if(b > a) return gcdex(b, a).invert();
+	static Pair gcdexp(long a, long b){
+		if(b > a) return gcdexp(b, a).invert();
 		else if(b == 0) return new Pair(1, 0);
 		else{
-			Pair p = gcdex(b, a % b);
+			Pair p = gcdexp(b, a % b);
 			return new Pair(p.s, p.r - p.s*(a/b));
 		}
 	}
@@ -67,26 +67,26 @@ public class Combinatorics {
 	}
 	
 	
-	static Pairbig gcdexbig(BigInteger a, BigInteger b){
-		if(gr(b, a)) return gcdexbig(b, a).invert();
-		else if(b.equals(v(0))) return new Pairbig(v(1), v(0));
-		else{
-			Pairbig p = gcdexbig(b, a.mod(b));
-			return new Pairbig(p.s, sub(p.r, m(p.s, div(a, b))));
-		}
-	}
-	static class Pairbig{
-		BigInteger r, s;
-		public Pairbig(BigInteger r, BigInteger s){
-			this.r = r; this.s = s;
-		}
-		public Pairbig invert(){
-			return new Pairbig(s, r);
-		}
-		public String toString() {
-			return r+" "+s;
-		}
-	}
+//	static Pairbig gcdexbig(BigInteger a, BigInteger b){
+//		if(gr(b, a)) return gcdexbig(b, a).invert();
+//		else if(b.equals(v(0))) return new Pairbig(v(1), v(0));
+//		else{
+//			Pairbig p = gcdexbig(b, a.mod(b));
+//			return new Pairbig(p.s, sub(p.r, m(p.s, div(a, b))));
+//		}
+//	}
+//	static class Pairbig{
+//		BigInteger r, s;
+//		public Pairbig(BigInteger r, BigInteger s){
+//			this.r = r; this.s = s;
+//		}
+//		public Pairbig invert(){
+//			return new Pairbig(s, r);
+//		}
+//		public String toString() {
+//			return r+" "+s;
+//		}
+//	}
 //	static BigInteger v(long x) {
 //		return BigInteger.valueOf(x);
 //	}
